@@ -26,11 +26,18 @@ public class Point {
 		this.y = y;
 	}
 
-	public boolean equals(Point other) {
-		return this.getX() == other.getX() &&
-			this.getY() == other.getY();
+	@Override
+	public boolean equals(Object other) {
+		if (other instanceof Point) {
+			Point that = (Point) other;
+			return this.getX() == that.getX() &&
+				this.getY() == that.getY();
+		} else {
+			return false;
+		}
 	}
 
+	@Override
 	public String toString() {
 		return String.format("Point(%d,%d)", this.getX(), this.getY());
 	}
@@ -38,17 +45,15 @@ public class Point {
 	public static void main(String[] args) {
 		Point p1 = new Point(1, 2);
 		Point p2 = new Point(1, 2);
-		Point p3 = new Point(2, 3);
 
 		System.out.println("P1 = " + p1);
 		System.out.println("P2 = " + p2);
-		System.out.println("P3 = " + p3);
 		System.out.println();
 
-		// Should be true since (1,2) == (1,2)
-		System.out.println("P1 equals P2 = " + p1.equals(p2));
-		// Should be false since (1,2) != (2,3)
-		System.out.println("P1 equals P3 = " + p1.equals(p3));
+		// Should be true since P1 equals P2A
+		Object p2a = p2;
+		System.out.println("P2A = (Object) " + p2);
+		System.out.println("P1 equals P2A = " + p1.equals(p2a));
 		System.out.println();
 
 		Set<Point> s = new HashSet<>();
@@ -58,17 +63,10 @@ public class Point {
 		System.out.println("S contains P1 = " + s.contains(p1));
 		// Should be true since P1 equals P2
 		//
-		// However returns false because `equals` signature is not
-		// overriding `Object.equals`
+		// However returns false since `hashcode` is not implemented
+		// according to `equals`
 		System.out.println("S contains P2 = " + s.contains(p2));
 		System.out.println();
 
-		// Should be true since P1 equals P2A
-		//
-		// However returns false for the same reason above
-		Object p2a = p2;
-		System.out.println("P2A = (Object) " + p2);
-		System.out.println("P1 equals P2A = " + p1.equals(p2a));
-		System.out.println();
 	}
 }
