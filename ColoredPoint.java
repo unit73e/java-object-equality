@@ -25,6 +25,9 @@ public class ColoredPoint extends Point {
 			ColoredPoint that = (ColoredPoint) other;
 			return this.getColor() == that.getColor() &&
 				super.equals(that);
+		} else if (other instanceof Point) {
+			Point that = (Point) other;
+			return super.equals(that);
 		} else {
 			return false;
 		}
@@ -40,34 +43,30 @@ public class ColoredPoint extends Point {
 	public static void main(String[] args) {
 		Point p = new Point(1, 2);
 		ColoredPoint cp = new ColoredPoint(1, 2, Color.RED);
+		ColoredPoint cpB = new ColoredPoint(1, 2, Color.BLUE);
 
 		System.out.println("P = " + p);
 		System.out.println("CP = " + cp);
+		System.out.println("CPB = " + cpB);
 		System.out.println();
 
 		// Should be true since X,Y are the same
 		System.out.println("P equals CP = " + p.equals(cp));
-		// Should be true for the same reason above
-		//
-		// However returns false because P is not a ColoredPoint
-		// The implementation is not symmetric
-		System.out.println("CP equals P = " + cp.equals(p));
+		// Should be false since the colors are different
+		System.out.println("CP equals CPB= " + cp.equals(cpB));
 		System.out.println();
 
-		Set<Point> s1 = new HashSet<Point>();
-		s1.add(p);
-		System.out.println("S1 = " + s1);
-		// Should be true since P equals CP
-		//
-		// However returns false because equality is not symmetric
-		// (CP does not equal P)
-		System.out.println("S1 contains CP = " + s1.contains(cp));
+		// Symmetric: x.equals(y) => y.equals(x)
+		boolean symmetric = p.equals(cp) && cp.equals(p);
+		System.out.println("P equals CP => CP equals P");
+		System.out.println("Symmetric = " + symmetric);
 		System.out.println();
 
-		Set<Point> s2 = new HashSet<Point>();
-		s2.add(cp);
-		System.out.println("S2 = " + s2);
-		// Should be true since P equals CP
-		System.out.println("S2 contains P = " + s2.contains(p));
+		// Transitive: x.equals(y) && y.equals(z) => x.equals(z)
+		//
+		// However returns false because CP is red and CPB is blue
+		boolean transitive = cp.equals(p) && p.equals(cpB) && cp.equals(cpB);
+		System.out.println("CP equals P && P equals CPB => CP equals CPB");
+		System.out.println("Transitive = " + transitive);
 	}
 }
