@@ -29,7 +29,8 @@ public class Point {
 		if (other instanceof Point) {
 			Point that = (Point) other;
 			return this.getX() == that.getX() &&
-				this.getY() == that.getY();
+				this.getY() == that.getY() &&
+				this.getClass().equals(that.getClass());
 		} else {
 			return false;
 		}

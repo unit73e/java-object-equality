@@ -25,9 +25,6 @@ public class ColoredPoint extends Point {
 			ColoredPoint that = (ColoredPoint) other;
 			return this.getColor() == that.getColor() &&
 				super.equals(that);
-		} else if (other instanceof Point) {
-			Point that = (Point) other;
-			return super.equals(that);
 		} else {
 			return false;
 		}
@@ -42,31 +39,50 @@ public class ColoredPoint extends Point {
 
 	public static void main(String[] args) {
 		Point p = new Point(1, 2);
-		ColoredPoint cp = new ColoredPoint(1, 2, Color.RED);
-		ColoredPoint cpB = new ColoredPoint(1, 2, Color.BLUE);
+		ColoredPoint cp1 = new ColoredPoint(1, 2, Color.RED);
+		ColoredPoint cp2 = new ColoredPoint(1, 2, Color.RED);
+		ColoredPoint cp3 = new ColoredPoint(1, 2, Color.RED);
+		ColoredPoint cp4 = new ColoredPoint(1, 2, Color.BLUE);
 
 		System.out.println("P = " + p);
-		System.out.println("CP = " + cp);
-		System.out.println("CPB = " + cpB);
+		System.out.println("CP1 = " + cp1);
+		System.out.println("CP2 = " + cp2);
+		System.out.println("CP3 = " + cp3);
+		System.out.println("CP4 = " + cp4);
 		System.out.println();
 
-		// Should be true since X,Y are the same
-		System.out.println("P equals CP = " + p.equals(cp));
-		// Should be false since the colors are different
-		System.out.println("CP equals CPB= " + cp.equals(cpB));
+		// Should be false since P and CP have different types
+		System.out.println("P equals CP1 = " + p.equals(cp1));
+		// Should be true since the coordinates and colors are equal
+		System.out.println("CP1 equals CP2= " + cp1.equals(cp2));
+		// Should be true since the colors are different
+		System.out.println("CP1 equals CP4= " + cp1.equals(cp4));
 		System.out.println();
 
-		// Symmetric: x.equals(y) => y.equals(x)
-		boolean symmetric = p.equals(cp) && cp.equals(p);
-		System.out.println("P equals CP => CP equals P");
+		// Symmetric: !null(x,y) && x.equals(y) => y.equals(x)
+		boolean symmetric = cp1.equals(cp2) && cp2.equals(cp1);
+		System.out.println("CP1 equals CP2 => CP2 equals CP1");
 		System.out.println("Symmetric = " + symmetric);
 		System.out.println();
 
-		// Transitive: x.equals(y) && y.equals(z) => x.equals(z)
-		//
-		// However returns false because CP is red and CPB is blue
-		boolean transitive = cp.equals(p) && p.equals(cpB) && cp.equals(cpB);
-		System.out.println("CP equals P && P equals CPB => CP equals CPB");
+		// Transitive: !null(x,y,z) && x.equals(y) && y.equals(z) => x.equals(z)
+		boolean transitive = cp1.equals(cp2) && cp2.equals(cp3) && cp1.equals(cp3);
+		System.out.println("CP1 equals CP2 && CP2 equals CP3 => CP1 equals CP3");
 		System.out.println("Transitive = " + transitive);
+		System.out.println();
+
+		// Should return true since both are Point and the coordinates
+		// are the same
+		//
+		// However returns false because pA class is not Point
+		Point pA = new Point(1, 1) {
+			@Override
+			public int getY() {
+				return 2;
+			}
+		};
+		System.out.println("PA = Point(1,1) {Y = 2}");
+		System.out.println("PA = " + pA);
+		System.out.println("P equals PA = " + p.equals(pA));
 	}
 }
