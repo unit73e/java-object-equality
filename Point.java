@@ -47,22 +47,54 @@ public class Point {
 
 	public static void main(String[] args) {
 		Point p1 = new Point(1, 2);
-		Point p2 = new Point(2, 2);
+		Point p2 = new Point(1, 2);
+		Point p3 = new Point(1, 2);
+		Point p4 = new Point(2, 3);
 
 		System.out.println("P1 = " + p1);
 		System.out.println("P2 = " + p2);
+		System.out.println("P3 = " + p3);
+		System.out.println("P4 = " + p4);
 		System.out.println();
 
-		// Should return true since (2,3) == (2,3)
-		Point p3 = p1.move(1, 0);
-		System.out.println("P3 = P1 move (1,0)");
-		System.out.println("P2 equals P3 = " + p2.equals(p3));
+		// Reflexive: !null(x) => x.equals(x)
+		boolean reflexive = p1.equals(p1);
+		System.out.println("P1.equals(P1) => true");
+		System.out.println("Reflexive = " + reflexive);
 		System.out.println();
 
-		Set<Point> s = new HashSet<>();
-		s.add(new Point(2,2));
-		System.out.println("S = " + s);
-		System.out.println("S contains P2 = " + s.contains(p2));
-		System.out.println("S contains P3 = " + s.contains(p3));
+		// Symmetric: !null(x,y) && x.equals(y) => y.equals(x)
+		boolean symmetric = p1.equals(p2) && p2.equals(p1);
+		System.out.println("P1.equals(P2) => P2.equals(P1)");
+		System.out.println("Symmetric = " + symmetric);
+		System.out.println();
+
+		// Transitive: !null(x,y,z) && x.equals(y) && y.equals(z) => x.equals(z)
+		boolean transitive = p1.equals(p2) && p2.equals(p3) && p1.equals(p3);
+		System.out.println("P1.equals(P2) && P2.equals(P3) => P1.equals(P3)");
+		System.out.println("Transitive = " + transitive);
+		System.out.println();
+
+		// Consistent: !null(x,y) => while (true) { x.equals(y) } || while (true) { !x.equals(y) }
+		boolean consistent = true;
+		for (int i = 0; i < 100; i++) {
+			if (!p1.equals(p2)) {
+				consistent = false;
+				break;
+			}
+			if (p1.equals(p4)) {
+				consistent = false;
+				break;
+			}
+		}
+		System.out.println("for (1..100) {!P1.equals(P3) && P1.equals(P3)}");
+		System.out.println("Consistent = " + consistent);
+		System.out.println();
+
+		// Null Comparision: x.equals(null) == false
+		boolean nullComparision = p1.equals(null) == false;
+		System.out.println("P1.equals(null) => false");
+		System.out.println("Null Comparision = " + nullComparision);
+		System.out.println();
 	}
 }
