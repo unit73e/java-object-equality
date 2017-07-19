@@ -28,12 +28,16 @@ public class Point {
 	public boolean equals(Object other) {
 		if (other instanceof Point) {
 			Point that = (Point) other;
-			return this.getX() == that.getX() &&
-				this.getY() == that.getY() &&
-				this.getClass().equals(that.getClass());
+			return that.canEqual(this) &&
+				this.getX() == that.getX() &&
+				this.getY() == that.getY();
 		} else {
 			return false;
 		}
+	}
+
+	public boolean canEqual(Object other) {
+		return other instanceof Point;
 	}
 
 	@Override

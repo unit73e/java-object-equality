@@ -23,7 +23,8 @@ public class ColoredPoint extends Point {
 	public boolean equals(Object other) {
 		if (other instanceof ColoredPoint) {
 			ColoredPoint that = (ColoredPoint) other;
-			return this.getColor() == that.getColor() &&
+			return that.canEqual(this) &&
+				this.getColor() == that.getColor() &&
 				super.equals(that);
 		} else {
 			return false;
@@ -35,6 +36,11 @@ public class ColoredPoint extends Point {
 		return String.format("ColoredPoint(%d,%d,%s)",
 				this.getX(), this.getY(),
 				this.getColor());
+	}
+
+	@Override
+	public boolean canEqual(Object other) {
+		return other instanceof ColoredPoint;
 	}
 
 	public static void main(String[] args) {
@@ -73,8 +79,6 @@ public class ColoredPoint extends Point {
 
 		// Should return true since both are Point and the coordinates
 		// are the same
-		//
-		// However returns false because pA class is not Point
 		Point pA = new Point(1, 1) {
 			@Override
 			public int getY() {
@@ -84,5 +88,16 @@ public class ColoredPoint extends Point {
 		System.out.println("PA = Point(1,1) {Y = 2}");
 		System.out.println("PA = " + pA);
 		System.out.println("P equals PA = " + p.equals(pA));
+		System.out.println();
+
+		HashSet<Point> ps = new HashSet<>();
+		ps.add(p);
+		System.out.println("PS = " + ps);
+		// Should be true since P was added to PS
+		System.out.println("PS contains P = " + ps.contains(p));
+		// Should be false since P does not equal CP1
+		System.out.println("PS contains CP1 = " + ps.contains(cp1));
+		// Should be true since P equals PA
+		System.out.println("PS contains PA = " + ps.contains(pA));
 	}
 }
